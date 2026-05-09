@@ -3,9 +3,11 @@ from modelos.lead import Lead
 from dados.banco import lista_leads, hash_leads, arvore_leads
 from servicos.verificador_duplicidade import verificar_duplicidade_recursivo
 from servicos.agendador import melhor_agendamento
+from modelos.grafo import Grafo
+from servicos.dijkstra import dijkstra, reconstruir_caminho
 
-app = Flask(__name__)
-
+app = Flask(__name__, template_folder="templates")
+app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 @app.route("/")
 def pagina_inicial():
@@ -58,6 +60,24 @@ def agendar():
 
     return jsonify({"max_consultas": resultado})
 
+@app.route("/melhor_caminho")
+def melhor_caminho():
+    grafo = Grafo()
+
+    #Fluxo do CRM
+    grafo.adicionar_aresta("Lead", "Contato", 2)
+    grafo.adicionar_aresta("Contato", "Qualificacao", 3)
+    grafo.adicionar_aresta("Qualificacao", "Proposta", 4)
+    grafo.adicionar_aresta("Proposta", "Fechamento", 2)
+    grafo.adicionar_aresta("Fechamento", "Confirmacao", 1)
+
+    distancias, caminhos = dijkstra(grafo.grafo, "Lead")
+    caminho = reconstruir_caminho(caminhos, "Lead", "Confirmacao")
+
+    return {
+        "caminho": caminho,
+        "custo_total": distancias.get("Confirmacao", None)
+    }
 
 if __name__ == "__main__":
     print("🚀 Servidor iniciando...")
