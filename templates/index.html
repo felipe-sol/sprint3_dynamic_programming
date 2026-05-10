@@ -8,14 +8,20 @@
 <body class="bg-gray-900 text-white min-h-screen">
 
 <div class="max-w-4xl mx-auto p-6">
-  <h1 class="text-3xl font-bold mb-6 text-center">CRM</h1>
+  <h1 class="text-3xl font-bold mb-6 text-center">HSR One CRM</h1>
   
-  <div class="bg-gray-800 p-6 rounded-2xl shadow mt-6">
-    <h2 class="text-xl mb-4">📍 Melhor Caminho (Dijkstra)</h2>
+  <div class="bg-gray-800 p-6 rounded-2xl shadow mt-6 mb-8">
+    <h2 class="text-2xl font-bold mb-2">
+      Demonstração — Algoritmo de Dijkstra
+    </h2>
+
+    <p class="text-gray-400 mb-6">
+    Simulação do fluxo otimizado de um CRM utilizando grafos e cálculo de menor caminho.
+    </p>
     <button onclick="buscarMelhorCaminho()" class="bg-yellow-500 px-4 py-2 rounded">
      Calcular Melhor Caminho
     </button>
-   <div id="fluxoCaminho"></div>
+   <div id="fluxoCaminho" class="mt-6"></div>
   </div>
 
   <!-- Cadastro de Lead -->
@@ -101,14 +107,14 @@ async function buscarMelhorCaminho() {
 
     // ETAPA (caixinha)
     const box = document.createElement("div");
-    box.className = "bg-blue-500 px-4 py-2 rounded shadow";
+    box.className = "bg-gradient-to-r from-blue-500 to-indigo-500 px-4 py-2 rounded-xl shadow mb-4";
     box.innerText = step.de;
 
     fluxo.appendChild(box);
 
     // SETA COM CUSTO
     const seta = document.createElement("div");
-    seta.className = "flex items-center gap-1 text-yellow-400 font-bold seta-animada";
+    seta.className = "text-yellow-400 my-2";
 
     seta.innerHTML = `
       <span>─</span>
@@ -130,7 +136,7 @@ async function buscarMelhorCaminho() {
 
   // 🔥 CUSTO TOTAL
   const total = document.createElement("div");
-  total.className = "w-full text-center text-green-400 font-bold mt-6 text-xl";
+  total.className = "mt-8 text-center text-green-400 font-bold text-xl";
   total.innerText = `Custo Total: ${json.custo_total}`;
 
   fluxo.appendChild(total);
