@@ -97,10 +97,67 @@ async function buscarMelhorCaminho() {
   const res = await fetch("/melhor_caminho");
   const json = await res.json();
 
-  document.getElementById("resultadoCaminho").innerText =
-    JSON.stringify(json, null, 2);
+  const fluxo = document.getElementById("fluxoCaminho");
+  fluxo.innerHTML = "";
+
+  json.detalhes.forEach((step, index) => {
+
+    // ETAPA (caixinha)
+    const box = document.createElement("div");
+    box.className = "bg-blue-500 px-4 py-2 rounded shadow";
+    box.innerText = step.de;
+
+    fluxo.appendChild(box);
+
+    // SETA COM CUSTO
+    const seta = document.createElement("div");
+    seta.className = "flex items-center gap-1 text-yellow-400 font-bold seta-animada";
+
+    seta.innerHTML = `
+      <span>─</span>
+      <span>(${step.custo})</span>
+      <span>▶</span>
+    `;
+
+    fluxo.appendChild(seta);
+
+    // ÚLTIMO BLOCO
+    if (index === json.detalhes.length - 1) {
+      const final = document.createElement("div");
+      final.className = "bg-green-600 px-4 py-2 rounded shadow";
+      final.innerText = step.para;
+
+      fluxo.appendChild(final);
+    }
+  });
+
+  // 🔥 CUSTO TOTAL
+  const total = document.createElement("div");
+  total.className = "w-full text-center text-green-400 font-bold mt-6 text-xl";
+  total.innerText = `Custo Total: ${json.custo_total}`;
+
+  fluxo.appendChild(total);
 }
 </script>
+<style>
+@keyframes fluxo {
+  0% { transform: translateX(0); opacity: 0.3; }
+  50% { opacity: 1; }
+  100% { transform: translateX(10px); opacity: 0.3; }
+}
 
+.seta-animada span {
+  display: inline-block;
+  animation: fluxo 1s infinite;
+}
+
+.seta-animada span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.seta-animada span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+</style>
 </body>
 </html>

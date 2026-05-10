@@ -64,7 +64,7 @@ def agendar():
 def melhor_caminho():
     grafo = Grafo()
 
-    #Fluxo do CRM
+    # Fluxo do CRM
     grafo.adicionar_aresta("Lead", "Contato", 2)
     grafo.adicionar_aresta("Contato", "Qualificacao", 3)
     grafo.adicionar_aresta("Qualificacao", "Proposta", 4)
@@ -74,10 +74,26 @@ def melhor_caminho():
     distancias, caminhos = dijkstra(grafo.grafo, "Lead")
     caminho = reconstruir_caminho(caminhos, "Lead", "Confirmacao")
 
-    return {
-        "caminho": caminho,
+    # 🔥 GERAR DETALHES (ESSENCIAL PRO FRONT)
+    detalhes = []
+
+    for i in range(len(caminho) - 1):
+        origem = caminho[i]
+        destino = caminho[i + 1]
+
+        for vizinho, peso in grafo.grafo.get(origem, []):
+            if vizinho == destino:
+                detalhes.append({
+                    "de": origem,
+                    "para": destino,
+                    "custo": peso
+                })
+                break
+
+    return jsonify({
+        "detalhes": detalhes,
         "custo_total": distancias.get("Confirmacao", None)
-    }
+    })
 
 if __name__ == "__main__":
     print("🚀 Servidor iniciando...")
