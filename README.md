@@ -367,9 +367,14 @@ O projeto demonstra aplicação prática de conceitos fundamentais:
 
 ---
 
-## 👨‍💻 Autor
+## 👨‍💻 Autores
 
-**Felipe Marceli**
+**Kauã Rodrigues de Souza - RM 559335**
+**Leonardo Luiz Jardim Queijo - RM 559842** 
+**Felipe Santos Marceli - RM 560456** 
+**Enzo Galhardo - RM561001** 
+**Kauan Diogo - RM560727** 
+**Lucas Villar - RM560005**
 
 ---
 
